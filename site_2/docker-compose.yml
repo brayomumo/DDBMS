@@ -6,6 +6,6 @@ services:
     ports:
       - 1433:1433
     volumes:
-      - ~/app/mssql/data:/var/lib/mssqlql/data
+      - ./mssql-data:/var/lib/mssqlql/data
     env_file:
       - mssql.env

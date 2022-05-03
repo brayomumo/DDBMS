@@ -1,0 +1,108 @@
+CREATE TABLE employee1(
+    -- department ="driver" or department="security"
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name NOT NULL,
+    VARCHAR(40) email NOT NULL,
+    date date_of_birth NOT NULL,
+    INT phone_number NOT NULL, 
+    varchar(20) department NOT NULL,
+)
+
+CREATE TABLE employee2(
+    --  department="marketing" or department="support"
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name NOT NULL,
+    VARCHAR(40) email NOT NULL,
+    date date_of_birth NOT NULL,
+    INT phone_number NOT NULL, 
+    varchar(20) department NOT NULL,
+)
+CREATE TABLE employee3(
+    -- not(department ="driver" or department="security") and not(department="marketing" or department="support")
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name NOT NULL,
+    VARCHAR(40) email NOT NULL,
+    date date_of_birth NOT NULL,
+    INT phone_number NOT NULL, 
+    varchar(20) department NOT NULL,
+)
+
+CREATE TABLE hr_accounts(
+    INT id PRIMARY KEY NOT NULL,
+    int employee_id NOT NULL,
+    varchar(20) job_group NOT NULL,
+    INT salary NOT NULL, 
+    date  date_paid NOT NULL,
+    FOREIGN KEY (employee_id) REFERENCES employee(id)
+)
+
+CREATE TABLE customer(
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name NOT NULL,
+    VARCHAR(40) email NOT NULL,
+    date date_added NOT NULL,
+    INT phone_number NOT NULL, 
+    varchar(20) address NOT NULL,
+)
+
+CREATE TABLE supplier(
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name NOT NULL,
+    VARCHAR(40) email NOT NULL,
+    date date_added NOT NULL,
+    INT phone_number NOT NULL, 
+    varchar(20) address NOT NULL,
+)
+
+
+CREATE TABLE vehicle(
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) reg_no UNIQUE NOT NULL,
+    VARCHAR(40) model NOT NULL,
+    date date_bought NOT NULL,
+)
+
+CREATE TABLE garage(
+    INT id PRIMARY KEY NOT NULL,
+    varchar(250) name  NOT NULL,
+    varchar(250) email  NOT NULL,
+    VARCHAR(40) address NOT NULL,
+    VARCHAR(40) phone_number NOT NULL,
+)
+
+CREATE TABLE service(
+    INT id PRIMARY KEY NOT NULL,
+    INT garage_id NOT NULL,
+    INT amount NOT NULL,
+    date  date_serviced NOT NULL,
+    varchar(250) description  NOT NULL,
+    INT vehicle_id NOT  NULL,
+    FOREIGN KEY(garage_id) REFERENCES garage(id),
+    FOREIGN KEY(vehicle_id) REFERENCES vehicle(id),
+)
+
+
+
+CREATE TABLE request1(
+    INT id PRIMARY KEY NOT NULL,
+    INT vehicle_id NOT NULL,
+    INT supplier_id NOT NULL,
+    INT driver_id NOT NULL,
+    varchar(255) from NOT NULL, 
+    varchar(255) to NOT NULL, 
+    varchar(255) description NOT NULL, 
+    varchar(255) status NOT NULL,
+
+    FOREIGN KEY (vehicle_id) REFERENCES vehicle(id),
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id),
+    FOREIGN KEY (driver_id) REFERENCES employee(id),
+)
+
+CREATE TABLE request2(
+    INT id PRIMARY KEY NOT NULL,
+    INT customer_id NOT NULL,
+    date  date_delivered NOT NULL,
+    date  date_paid NOT NULL,
+    INT amount NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(id),
+)

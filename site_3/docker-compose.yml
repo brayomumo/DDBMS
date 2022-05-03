@@ -11,5 +11,5 @@ services:
       - 3306:3306
 
     volumes:
-      - ~/app/mysql/data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     
