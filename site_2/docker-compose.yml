@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    ports:
+      - 1433:1433
+    volumes:
+      - ~/app/mssql/data:/var/lib/mssqlql/data
+    env_file:
+      - mssql.env
