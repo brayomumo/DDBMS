@@ -8,6 +8,8 @@ CREATE TABLE employee1(
     varchar(20) department NOT NULL,
 )
 
+
+
 CREATE TABLE employee2(
     --  department="marketing" or department="support"
     INT id PRIMARY KEY NOT NULL,
@@ -17,6 +19,7 @@ CREATE TABLE employee2(
     INT phone_number NOT NULL, 
     varchar(20) department NOT NULL,
 )
+
 CREATE TABLE employee3(
     -- not(department ="driver" or department="security") and not(department="marketing" or department="support")
     INT id PRIMARY KEY NOT NULL,
@@ -27,6 +30,7 @@ CREATE TABLE employee3(
     varchar(20) department NOT NULL,
 )
 
+
 CREATE TABLE hr_accounts(
     INT id PRIMARY KEY NOT NULL,
     int employee_id NOT NULL,
@@ -35,6 +39,7 @@ CREATE TABLE hr_accounts(
     date  date_paid NOT NULL,
     FOREIGN KEY (employee_id) REFERENCES employee(id)
 )
+
 
 CREATE TABLE customer(
     INT id PRIMARY KEY NOT NULL,
@@ -54,7 +59,6 @@ CREATE TABLE supplier(
     varchar(20) address NOT NULL,
 )
 
-
 CREATE TABLE vehicle(
     INT id PRIMARY KEY NOT NULL,
     varchar(250) reg_no UNIQUE NOT NULL,
@@ -69,6 +73,7 @@ CREATE TABLE garage(
     VARCHAR(40) address NOT NULL,
     VARCHAR(40) phone_number NOT NULL,
 )
+
 
 CREATE TABLE service(
     INT id PRIMARY KEY NOT NULL,
@@ -98,6 +103,8 @@ CREATE TABLE request1(
     FOREIGN KEY (driver_id) REFERENCES employee(id),
 )
 
+
+
 CREATE TABLE request2(
     INT id PRIMARY KEY NOT NULL,
     INT customer_id NOT NULL,
@@ -106,3 +113,127 @@ CREATE TABLE request2(
     INT amount NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(id),
 )
+
+--- Data Wrapper
+-- postgresql-14-tds-fdw
+-- install data wrapper
+CREATE EXTENSION mysql_fdw;
+
+CREATE SERVER mysql_server                                                              
+FOREIGN DATA WRAPPER mysql_fdw 
+OPTIONS (host 'ddb-site_3-1', port '1433');
+
+CREATE USER MAPPING FOR postgres                                                        
+SERVER mysql_server 
+OPTIONS (username 'site3', password 'localhost');
+
+CREATE FOREIGN TABLE ft_test( id int, name text) server mysql_server  options (dbname 'site3_database', table_name 'test');
+select * from ft_test ;
+
+
+-- mssql data wrapper
+CREATE SERVER mssql_svr                                                 
+FOREIGN DATA WRAPPER tds_fdw 
+OPTIONS (servername 'ddb-site_2-1', port '1433', database 'testDB');
+
+CREATE FOREIGN TABLE mssql_frag (id int, name varchar) SERVER mssql_svr 
+OPTIONs (table_name 'test');
+
+CREATE USER MAPPING FOR postgres SERVER mssql_svr OPTIONS (username 'sa', password 'mssql1Ipw');
+
+select * from mssql_frag;
+
+
+-- INSERT DATA 
+INSERT INTO employee1 (id,name, email, date_of_birth, phone_number, department) 
+VALUES 
+(111,'ahmed', 'ahmed@gmail.com', '1995-06-01', 74567890, 'driver') 
+(112,'abdul', 'abdul@gmail.com', '1995-06-01', 74567890, 'security') 
+(113,'mwangi', 'mwangi@gmail.com', '1995-06-01', 74567890, 'driver') 
+(114,'doe', 'doe@gmail.com', '1995-06-01', 74567890, 'security') 
+(116,'jane', 'jane@gmail.com', '1995-06-01', 74567813, 'driver') 
+(115,'kinuthia', 'kinuthia@gmail.com', '1995-06-01', 74567890, 'security') 
+
+INSERT INTO employee2 (name, email, date_of_birth, phone_number, department) 
+VALUES 
+(106,'june', 'june@gmail.com', '1995-06-01', 74567890, 'marketing') 
+(107,'dolly', 'dolly@gmail.com', '1995-06-01', 74567890, 'support') 
+(108,'ann', 'ann@gmail.com', '1995-06-01', 74567890, 'marketing') 
+(109,'ahmed', 'ahmed@gmail.com', '1995-06-01', 74567890, 'support') 
+(110,'daniel', 'daniel@gmail.com', '1995-06-01', 74567890, 'marketing') 
+
+
+INSERT INTO employee3 (name, email, date_of_birth, phone_number, department) 
+VALUES 
+(101,'brian', 'brian@gmail.com', '1995-06-01', 74567890, 'executive') 
+(102,'john', 'john@gmail.com', '1995-06-01', 74567890, 'hr') 
+(103,'mary', 'mary@gmail.com', '1995-06-01', 74567890, 'hr') 
+(104,'james', 'james@gmail.com', '1995-06-01', 74567890, 'executive') 
+(105,'collins', 'collins@gmail.com', '1995-06-01', 74567890, 'executive') 
+
+
+INSERT INTO hr_accounts(employee_id, job_group, salary, date_paid)
+VALUES
+(110, 'A', 10000, '2022-3-3')
+(101, 'A', 50000, '2022-3-3')
+(105, 'B', 40000, '2022-3-3')
+(112, 'C', 30000, '2022-3-3')
+(107, 'D', 25000, '2022-3-3')
+
+
+INSERT INTO customer(id, name, email, date_added, phone_number, address)
+VALUES
+(1, 'custm 1', 'custm1@gmail.com', '2021-06-20', 7228223321, 'addr1')
+(2, 'custm 2', 'custm2@gmail.com', '2021-06-20', 7228223322, 'addr2')
+(3, 'custm 3', 'custm3@gmail.com', '2021-06-20', 7228223323, 'addr3')
+(4, 'custm 4', 'custm4@gmail.com', '2021-06-20', 7228223324, 'addr4')
+
+
+INSERT INTO supplier(id, name, email, date_added, phone_number, address)
+VALUES
+(10, 'supplier 1', 'supplier-1@gmail.com', '2021-06-20', 7228223321, 'addr1')
+(20, 'supplier 2', 'supplier-2@gmail.com', '2021-06-20', 7228223322, 'addr2')
+(30, 'supplier 3', 'supplier-3@gmail.com', '2021-06-20', 7228223323, 'addr3')
+(40, 'supplier 4', 'supplier-4@gmail.com', '2021-06-20', 7228223324, 'addr4')
+
+
+INSERT INTO vehicle (id, reg_no, model, date_bought)
+VALUES
+(1001, 'reg1', 'isuzu', '2008-12-3')
+(1002, 'reg2', 'isuzu', '2008-12-3')
+(1003, 'reg3', 'isuzu', '2008-12-3')
+(1004, 'reg3', 'isuzu', '2008-12-3')
+
+INSERT INTO garage(id, name, email, address, phone_number)
+VALUES
+(10001, 'garage 1', 'garage-1@gmail.com', '2021-06-20', 7228223321, 'addr1')
+(10002, 'garage 2', 'garage-2@gmail.com', '2021-06-20', 7228223322, 'addr2')
+
+INSERT INTO service(id, garage_id, amount, date_serviced, description, vehicle_id)
+VALUES
+(5001, 10001, 100000, '2022-02-21', 'alot of things done', 1001)
+(5002, 10001, 300000, '2021-06-21', 'few things done', 1002)
+(5003, 10002, 250000, '2022-01-21', 'alot of things done', 1001)
+(5004, 10001, 10000, '2022-03-21', 'some things changed', 1003)
+(5005, 10002, 1000, '2022-02-21', 'some things changed', 1004)
+
+INSERT INTO request1(id, vehicle_id, supplier_id, driver_id, from, to, description, status)
+VALUES
+(2001, 1003, 20, 111, 'place_1', 'place_2', 'heavy stuff', delivered)
+(2002, 1001, 20, 113, 'place 10', 'place_3', 'relatively heavy stuff', pending)
+(2003, 1003, 30, 113, 'place_1', 'place_2', 'heavy stuff', pending)
+(2004, 1001, 30, 111, 'place_001', 'place_002', 'heavy stuff', complete)
+(2005, 1003, 40, 116, 'place_1001', 'place_20', 'heavy stuff', complete)
+(2006, 1003, 20, 111, 'place_0011', 'place_012', 'heavy stuff', complete)
+(2007, 1004, 40, 111, 'place_101', 'place_2001', 'heavy stuff', delivered)
+
+
+INSERT INTO request2(id,customer_id,date_delivered,date_paid,amount)
+VALUES
+(2001, 1, '2022-3-10', '2022-3-15', 1000000)
+(2002, 1, '2022-2-10', '2022-2-15', 100000)
+(2003, 1, '2022-1-10', '2022-1-15', 1000000)
+(2004, 1, '2022-4-10', '2022-4-15', 100000)
+(2005, 1, '2022-3-10', '2022-3-15', 1000000)
+(2006, 1, '2022-3-15', '2022-3-17', 10000)
+(2007, 1, '2022-3-20', '2022-3-25', 1000000)

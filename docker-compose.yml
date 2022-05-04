@@ -1,0 +1,33 @@
+version: "3"
+services:
+        main_site_db:
+                image: "postgres"
+                environment:
+                        POSTGRES_USER: postgres
+                        POSTGRES_PASSWORD: postgres
+                        POSTGRES_DB: main_site
+                ports:
+                        - 8080:5432
+
+                volumes:
+                        - ./main_site_1/postgres-data:/var/lib/postgresql/data/
+        site_2:
+                image: mcr.microsoft.com/mssql/server:2019-latest
+                restart: always
+                ports:
+                        - 8081:1433
+                volumes:
+                        - ./site_2/mssql-data:/var/lib/mssqlql
+                env_file:
+                        - site_2/mssql.env
+
+        site_3:
+                image: mysql
+                restart: always
+                env_file:
+                        - site_3/mysql.env
+
+                ports:
+                        - 3306:3306
+                volumes:
+                        - ./site_3/mysql-data:/var/lib/mysql
