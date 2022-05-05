@@ -36,7 +36,7 @@ CREATE TABLE request(
     customer_id INT  NOT NULL,
     date_delivered date   NOT NULL,
     date_paid date  NOT NULL,
-    amount INT  NOT NULL,
+    amount BIGINT  NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
@@ -61,10 +61,10 @@ VALUES
 
 INSERT INTO customer(id, name, email, date_added, phone_number, address)
 VALUES
-(1, 'custm 1', 'custm1@gmail.com', '2021-06-20', 7228223321, 'addr1'),
-(2, 'custm 2', 'custm2@gmail.com', '2021-06-20', 7228223322, 'addr2'),
-(3, 'custm 3', 'custm3@gmail.com', '2021-06-20', 7228223323, 'addr3'),
-(4, 'custm 4', 'custm4@gmail.com', '2021-06-20', 7228223324, 'addr4');
+(1, 'custm 1', 'custm1@gmail.com', '2021-06-20', 72282321, 'addr1'),
+(2, 'custm 2', 'custm2@gmail.com', '2021-06-20', 72282322, 'addr2'),
+(3, 'custm 3', 'custm3@gmail.com', '2021-06-20', 72282323, 'addr3'),
+(4, 'custm 4', 'custm4@gmail.com', '2021-06-20', 72282324, 'addr4');
 
 
 INSERT INTO supplier(id, name, email, date_added, phone_number, address)

@@ -236,3 +236,49 @@ VALUES
 (2005, 2, '2022-3-10', '2022-3-15', 1000000)
 (2006, 4, '2022-3-15', '2022-3-17', 10000)
 (2007, 4, '2022-3-20', '2022-3-25', 1000000)
+
+-- horizontal fragmentation
+-- select name,email,phone_number,department  from employee 
+-- union 
+-- select name,email,phone_number,department from employee_site_2
+-- union 
+-- select name,email,phone_number,department  from employee_site_3;
+
+-- DHF
+select 
+id,
+employee_id,
+job_group,
+salary 
+from hr_accounts
+union 
+select 
+id,
+employee_id,
+job_group,
+salary
+from hr_accounts_site_3
+union
+select id,
+employee_id,
+job_group,
+salary
+from hr_accounts_site_2;
+
+-- vertical fragmentation
+-- select 
+-- request_site_2.id, 
+-- request_site_2.customer_id,
+-- to_date(request_site_2.date_delivered, 'Mon DD  YYYY'),
+-- to_date(request_site_2.date_paid, 'Mon DD YYYY'),
+-- request_site_2.amount,
+-- request_site_3.vehicle_id,
+-- request_site_3.supplier_id,
+-- request_site_3.driver_id,
+-- request_site_3.from_addr,
+-- request_site_3.to_addr,
+-- request_site_3.request_description,
+-- request_site_3.request_status
+-- from request_site_2 join request_site_3 on request_site_2.id = request_site_3.id ;
+
+
