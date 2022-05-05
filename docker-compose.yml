@@ -19,6 +19,7 @@ services:
                         context: site_2/
                         dockerfile: Dockerfile
                 restart: always
+                # command: bash /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "mssql1Ipw" -Q "CREATE DATABASE site2_database"
                 ports:
                         - 8081:1433
                 volumes:

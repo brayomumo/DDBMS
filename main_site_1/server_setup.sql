@@ -11,7 +11,7 @@ OPTIONS (username 'site3', password 'localhost');
 
 CREATE SERVER mssql_server                                                 
 FOREIGN DATA WRAPPER tds_fdw 
-OPTIONS (servername 'ddb-site_2-1', port '1433', database 'site3_database');
+OPTIONS (servername 'ddb-site_2-1', port '8081', database 'site3_database');
 
 CREATE USER MAPPING FOR postgres 
 SERVER mssql_server

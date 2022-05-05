@@ -1,0 +1,1 @@
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "mssql1Ipw" -Q "CREATE DATABASE site2_database"
