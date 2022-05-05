@@ -1,87 +1,86 @@
 CREATE TABLE employee1(
-    -- department ="driver" or department="security"
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name NOT NULL,
-    VARCHAR(40) email NOT NULL,
-    date date_of_birth NOT NULL,
-    INT phone_number NOT NULL, 
-    varchar(20) department NOT NULL,
+    -- not(department ="driver" or department="security") and not(department="marketing" or department="support")
+    id INT PRIMARY KEY NOT NULL,
+    name varchar(250)  NOT NULL,
+    email VARCHAR(40)  NOT NULL,
+    date_of_birth date  NOT NULL,
+    phone_number INT  NOT NULL, 
+    department varchar(20)  NOT NULL,
 )
-
-
 
 CREATE TABLE employee2(
     --  department="marketing" or department="support"
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name NOT NULL,
-    VARCHAR(40) email NOT NULL,
-    date date_of_birth NOT NULL,
-    INT phone_number NOT NULL, 
-    varchar(20) department NOT NULL,
+    id INT PRIMARY KEY NOT NULL,
+    name varchar(250)  NOT NULL,
+    email VARCHAR(40)  NOT NULL,
+    date_of_birth date  NOT NULL,
+    phone_number INT  NOT NULL, 
+    department varchar(20)  NOT NULL
 )
 
 CREATE TABLE employee3(
-    -- not(department ="driver" or department="security") and not(department="marketing" or department="support")
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name NOT NULL,
-    VARCHAR(40) email NOT NULL,
-    date date_of_birth NOT NULL,
-    INT phone_number NOT NULL, 
-    varchar(20) department NOT NULL,
+    -- department ="driver" or department="security"
+   id INT PRIMARY KEY NOT NULL,
+    name varchar(250)  NOT NULL,
+    email VARCHAR(40)  NOT NULL,
+    date_of_birth date  NOT NULL,
+    phone_number INT  NOT NULL, 
+    department varchar(20)  NOT NULL
 )
 
 
+
 CREATE TABLE hr_accounts(
-    INT id PRIMARY KEY NOT NULL,
-    int employee_id NOT NULL,
-    varchar(20) job_group NOT NULL,
-    INT salary NOT NULL, 
-    date  date_paid NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    employee_id int  NOT NULL,
+    job_group varchar(20)  NOT NULL,
+    salary INT  NOT NULL, 
+    date_paid date   NOT NULL,
     FOREIGN KEY (employee_id) REFERENCES employee(id)
 )
 
 
 CREATE TABLE customer(
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name NOT NULL,
-    VARCHAR(40) email NOT NULL,
-    date date_added NOT NULL,
-    INT phone_number NOT NULL, 
-    varchar(20) address NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    name varchar(250)  NOT NULL,
+    email VARCHAR(40)  NOT NULL,
+    date_added date  NOT NULL,
+    phone_number INT  NOT NULL, 
+    address varchar(20)  NOT NULL,
 )
 
 CREATE TABLE supplier(
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name NOT NULL,
-    VARCHAR(40) email NOT NULL,
-    date date_added NOT NULL,
-    INT phone_number NOT NULL, 
-    varchar(20) address NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    name varchar(250)  NOT NULL,
+    email VARCHAR(40)  NOT NULL,
+    date_added date  NOT NULL,
+    phone_number INT  NOT NULL, 
+    address varchar(20)  NOT NULL,
 )
 
 CREATE TABLE vehicle(
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) reg_no UNIQUE NOT NULL,
-    VARCHAR(40) model NOT NULL,
-    date date_bought NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    reg_no varchar(250)  UNIQUE NOT NULL,
+    model VARCHAR(40)  NOT NULL,
+    date_bought date  NOT NULL,
 )
 
 CREATE TABLE garage(
-    INT id PRIMARY KEY NOT NULL,
-    varchar(250) name  NOT NULL,
-    varchar(250) email  NOT NULL,
-    VARCHAR(40) address NOT NULL,
-    VARCHAR(40) phone_number NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    name varchar(250)   NOT NULL,
+    email varchar(250)   NOT NULL,
+    address VARCHAR(40)  NOT NULL,
+    phone_number VARCHAR(40)  NOT NULL,
 )
 
 
 CREATE TABLE service(
-    INT id PRIMARY KEY NOT NULL,
-    INT garage_id NOT NULL,
-    INT amount NOT NULL,
-    date  date_serviced NOT NULL,
-    varchar(250) description  NOT NULL,
-    INT vehicle_id NOT  NULL,
+    id INT PRIMARY KEY NOT NULL,
+    garage_id INT  NOT NULL,
+    amount INT  NOT NULL,
+    date_serviced date   NOT NULL,
+    description varchar(250)   NOT NULL,
+    vehicle_id INT  NOT  NULL,
     FOREIGN KEY(garage_id) REFERENCES garage(id),
     FOREIGN KEY(vehicle_id) REFERENCES vehicle(id),
 )
@@ -89,14 +88,14 @@ CREATE TABLE service(
 
 
 CREATE TABLE request1(
-    INT id PRIMARY KEY NOT NULL,
-    INT vehicle_id NOT NULL,
-    INT supplier_id NOT NULL,
-    INT driver_id NOT NULL,
-    varchar(255) from NOT NULL, 
-    varchar(255) to NOT NULL, 
-    varchar(255) description NOT NULL, 
-    varchar(255) status NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    vehicle_id INT  NOT NULL,
+    supplier_id INT  NOT NULL,
+    driver_id INT  NOT NULL,
+    from varchar(255)  NOT NULL, 
+    to varchar(255)  NOT NULL, 
+    description varchar(255)  NOT NULL, 
+    status varchar(255)  NOT NULL,
 
     FOREIGN KEY (vehicle_id) REFERENCES vehicle(id),
     FOREIGN KEY (supplier_id) REFERENCES supplier(id),
@@ -106,11 +105,11 @@ CREATE TABLE request1(
 
 
 CREATE TABLE request2(
-    INT id PRIMARY KEY NOT NULL,
-    INT customer_id NOT NULL,
-    date  date_delivered NOT NULL,
-    date  date_paid NOT NULL,
-    INT amount NOT NULL,
+    id INT  PRIMARY KEY NOT NULL,
+    customer_id INT  NOT NULL,
+    date_delivered date   NOT NULL,
+    date_paid date  NOT NULL,
+    amount INT  NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(id),
 )
 
@@ -231,9 +230,9 @@ VALUES
 INSERT INTO request2(id,customer_id,date_delivered,date_paid,amount)
 VALUES
 (2001, 1, '2022-3-10', '2022-3-15', 1000000)
-(2002, 1, '2022-2-10', '2022-2-15', 100000)
+(2002, 2, '2022-2-10', '2022-2-15', 100000)
 (2003, 1, '2022-1-10', '2022-1-15', 1000000)
-(2004, 1, '2022-4-10', '2022-4-15', 100000)
-(2005, 1, '2022-3-10', '2022-3-15', 1000000)
-(2006, 1, '2022-3-15', '2022-3-17', 10000)
-(2007, 1, '2022-3-20', '2022-3-25', 1000000)
+(2004, 3, '2022-4-10', '2022-4-15', 100000)
+(2005, 2, '2022-3-10', '2022-3-15', 1000000)
+(2006, 4, '2022-3-15', '2022-3-17', 10000)
+(2007, 4, '2022-3-20', '2022-3-25', 1000000)
